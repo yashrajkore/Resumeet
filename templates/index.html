@@ -1,52 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>AI Resume Analyzer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container py-5">
-        <h2 class="text-center mb-4">🔍 Local Resume Analyzer</h2>
-        
-        <div class="card shadow-sm p-4">
-            <form action="/analyze" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label class="form-label">1. Paste Job Description</label>
-                    <textarea name="jd" class="form-control" rows="5" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">2. Upload Resume (PDF)</label>
-                    <input type="file" name="resume" class="form-control" accept=".pdf" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Analyze Now</button>
-            </form>
-        </div>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Resumeet | AI Resume Analyzer</title>
 
-        {% if result %}
-        <div class="mt-5">
-            <h3>Analysis Results: Score {{ result.total_score }} / 20</h3>
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <div class="card p-3">
-                        <h5>Formatting ({{ result.format_score }}/10)</h5>
-                        <ul class="list-unstyled">
-                            {% for label, found in result.format_details.items() %}
-                                <li>{{ '✅' if found else '❌' }} {{ label }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card p-3">
-                        <h5>Keywords ({{ result.keyword_score }}/10)</h5>
-                        <p>Matched: {{ result.matched_count }} terms</p>
-                        <small class="text-muted">{{ result.matched_words | join(', ') }}</small>
-                    </div>
-                </div>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at 20% 20%, #1a1a2e, #0f0f1a 60%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+}
+
+/* Floating background glow */
+body::before, body::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,0,80,0.25), transparent 70%);
+    animation: float 8s infinite alternate ease-in-out;
+}
+body::after {
+    right: 0;
+    bottom: 0;
+    animation-delay: 3s;
+}
+@keyframes float {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-40px); }
+}
+
+.container {
+    width: 95%;
+    max-width: 900px;
+    backdrop-filter: blur(18px);
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(255,0,80,0.15);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #bbb;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    padding: 30px;
+}
+
+label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+textarea, input[type="file"] {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.4);
+    color: white;
+    transition: 0.3s;
+}
+
+textarea:focus, input[type="file"]:focus {
+    border-color: #ff0055;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255,0,85,0.5);
+}
+
+/* Upload box */
+.upload-box {
+    border: 2px dashed rgba(255,255,255,0.2);
+    padding: 25px;
+    text-align: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.upload-box:hover {
+    border-color: #ff0055;
+    background: rgba(255,0,85,0.05);
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff0055, #ff3d7f);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255,0,85,0.4);
+}
+
+.btn-primary.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-primary.loading::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.footer-note {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h2>🔍 Resumeet AI</h2>
+    <p class="subtitle">Smart Resume Analysis Powered by Artificial Intelligence</p>
+
+    <div class="card">
+        <form action="/analyze" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+
+            <label>1. Paste Job Description</label>
+            <textarea name="jd" rows="5" placeholder="Paste the job description here..." required></textarea>
+
+            <label>2. Upload Resume (PDF)</label>
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                Click or Drag & Drop your resume here
+                <input type="file" id="fileInput" name="resume" accept=".pdf" hidden required>
             </div>
-        </div>
-        {% endif %}
+
+            <button type="submit" class="btn-primary" id="analyzeBtn">Analyze Resume</button>
+        </form>
+        <p class="footer-note">Your data is secure. We do not store resumes.</p>
     </div>
+</div>
+
+<script>
+function showLoading() {
+    document.getElementById("analyzeBtn").classList.add("loading");
+}
+</script>
 </body>
 </html>
