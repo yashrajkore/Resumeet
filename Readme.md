@@ -74,3 +74,11 @@ streamlit run app.py
 - ATS Compatibility Check: Detailed report on how well the resume passes automated parsers.
 - Role-Specific Scoring: Specialized weights for Creative vs. Technical roles.
 - Bias-Aware Evaluation: Ensuring fair assessment by anonymizing demographic data.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
+
+Developed with ❤️ by Yashraj Kore
