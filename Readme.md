@@ -20,8 +20,6 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 
 ---
 
-.
-
 ## 📸 Visual Showcase
 
 ![User-Interface](images/ResumeetUI.jpg)
@@ -79,6 +77,6 @@ streamlit run app.py
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
+#### Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
 ---
 Developed with ❤️ by Yashraj Kore
