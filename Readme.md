@@ -24,7 +24,7 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 
 ## 📸 Visual Showcase
 
-[PLACEHOLDER: Add a high-resolution screenshot of your Main UI here]
+![User-Interface](images/ResumeetUI.jpg)
 
 ---
 
@@ -80,5 +80,5 @@ streamlit run app.py
 ## 🤝 Contributing
 
 Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
-
+---
 Developed with ❤️ by Yashraj Kore
