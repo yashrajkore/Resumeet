@@ -55,5 +55,18 @@ The core engine provides structured scoring to remove subjectivity from the hiri
 
 - Install dependencies:
 ```
-    pip install flask PyPDF2 nltk
+    pip install -r requirements.txt
 ```
+
+- Run the application:
+```
+    streamlit run app.py
+```
+
+---
+
+## 🗺️ Roadmap
+
+[1] ATS Compatibility Check: Detailed report on how well the resume passes automated parsers.
+[2] Role-Specific Scoring: Specialized weights for Creative vs. Technical roles.
+[3] Bias-Aware Evaluation: Ensuring fair assessment by anonymizing demographic data.
