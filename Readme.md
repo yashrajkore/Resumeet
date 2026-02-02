@@ -22,7 +22,7 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 
 ## 📸 Visual Showcase
 
-![User-Interface](images/ResumeetUI.jpg)
+![User-Interface](images/UIResumeet.jpg)
 
 ---
 
