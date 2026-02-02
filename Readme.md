@@ -23,13 +23,17 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 .
 
 ## 📸 Visual Showcase
+
 [PLACEHOLDER: Add a high-resolution screenshot of your Main UI here]
 
 ---
 
 ## 📊 Evaluation Metrics
+
 The core engine provides structured scoring to remove subjectivity from the hiring process:
+
 ![Score-Table](images/chartForReadme.jpg)
+
 [PLACEHOLDER: Add an image of the Scoring Chart/Result UI here]
 
 ---
@@ -50,23 +54,23 @@ The core engine provides structured scoring to remove subjectivity from the hiri
 
 - Clone the repository:
 ```
-    git clone https://github.com/yashrajkore/Resumeet.git
+git clone https://github.com/yashrajkore/Resumeet.git
 ```
 
 - Install dependencies:
 ```
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 - Run the application:
 ```
-    streamlit run app.py
+streamlit run app.py
 ```
 
 ---
 
 ## 🗺️ Roadmap
 
-[1] ATS Compatibility Check: Detailed report on how well the resume passes automated parsers.
-[2] Role-Specific Scoring: Specialized weights for Creative vs. Technical roles.
-[3] Bias-Aware Evaluation: Ensuring fair assessment by anonymizing demographic data.
+- ATS Compatibility Check: Detailed report on how well the resume passes automated parsers.
+- Role-Specific Scoring: Specialized weights for Creative vs. Technical roles.
+- Bias-Aware Evaluation: Ensuring fair assessment by anonymizing demographic data.
