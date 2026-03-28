@@ -1,42 +1,43 @@
-# 📄 Resumeet : AI-Analyzer
+#  📄 Resumeet AI: Advanced ATS Intelligence
 
-Transforming the hiring process with data-driven insights. This AI-powered system evaluates resumes against job descriptions, providing structured metrics to bridge the gap between talent and opportunity.
+Precision Resume Analysis Powered by Gemini 2.5 Flash
 
----
-
-## 🚀 Overview
-
-Most resumes get lost in the "black hole" of manual screening. This project uses advanced AI to decompose resumes into actionable data points, offering a side-by-side comparison between candidate skills and job requirements.
-
-### ✨ Key Features
-
-- Dual-Pane Dashboard: Visually inspect resumes alongside AI-generated insights in real-time.
-
-- Intelligent Scoring Engine: Get granular metrics on Skill Match, Formatting, and Overall Impression.
-
-- Context-Aware Analysis: Evaluates not just keywords, but the relevance of experience to the Job Description (JD).
-
-- Future-Ready Architecture: Designed to easily integrate ATS compatibility checks and bias-aware evaluation.
+Resumeet AI is a sophisticated recruitment intelligence tool that bridges the gap between candidate profiles and job requirements. By leveraging Large Language Models (LLMs), it deconstructs complex resumes into actionable data points, providing recruiters and job seekers with a definitive "Match Score" and strategic improvement roadmap.
 
 ---
 
-## 📸 Visual Showcase
+## ✨ Executive Features
 
-![User-Interface](images/UIResumeet.jpg)
+Deep Contextual Analysis: Unlike traditional keyword-stuffing parsers, Resumeet understands the intent and seniority of experience relative to the Job Description.
 
-![Form-Filing]()
+Automated Gap Discovery: Instantly identifies missing technical and soft skills (Keywords) that are critical for ATS passing.
+
+Strategic Improvement Roadmap: Provides candidates with high-impact, actionable tips to refine their profile for specific roles.
+
+High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex multi-column resume layouts.
 
 ---
 
-## 🛠️ Technical Stack
+## 📸 Interface Preview
 
-- Frontend: Streamlit
+- The Command Center
+    ![User-Interface](images/UIResumeet.jpg)
 
-- Backend: Python
+- Usage
+    ![Form-Filing](images/Form-filling_Resumeet.jpg)
+    
+- Real-Time Intelligence
+    ![Output](images/Resumeet_Output.jpg)
 
-- AI Engine: Gemini API
+---
 
-- Parsing: pyPDF2
+## 🛠️ The Tech Stack
+
+- Brain	: Google Gemini 2.5 Flash (LLM)
+- Backend :	Python / Flask
+- Intelligence SDK : Google GenAI (Modern Client-First Architecture)
+- Document Engine : PyPDF2
+- Frontend : HTML5 / CSS3 (Responsive Dark Mode)
 
 ---
 
@@ -45,28 +46,46 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 - Clone the repository:
 ```
 git clone https://github.com/yashrajkore/Resumeet.git
+cd Resumeet
 ```
 
-- Install dependencies:
+- Initialize environment:
 ```
 pip install -r requirements.txt
 ```
 
-- Run the application:
+- Launch the Engine:
 ```
-streamlit run app.py
+python app.py
 ```
+- Visit http://127.0.0.1:5000 in your browser.
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Future Vision
 
-- ATS Compatibility Check: Detailed report on how well the resume passes automated parsers.
-- Role-Specific Scoring: Specialized weights for Creative vs. Technical roles.
-- Bias-Aware Evaluation: Ensuring fair assessment by anonymizing demographic data.
+- Multi-Resume Benchmarking: Compare multiple candidates against one JD simultaneously.
+
+- AI Interview Question Generator: Automatically generate custom interview questions based on the candidate's skill gaps.
+
+- Exportable Reports: Generate professional PDF feedback reports for candidates.
 
 ---
 
 ## 🤝 Contributing
 
-#### Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
+Contributions are what make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+- Fork the Project
+
+- Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+- Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+- Push to the Branch (git push origin feature/AmazingFeature)
+
+- Open a Pull Request
+
+---
+
+Developed with ❤️ by Yashraj kore
