@@ -26,16 +26,6 @@ Most resumes get lost in the "black hole" of manual screening. This project uses
 
 ---
 
-## 📊 Evaluation Metrics
-
-The core engine provides structured scoring to remove subjectivity from the hiring process:
-
-![Score-Table](images/chartForReadme.jpg)
-
-[PLACEHOLDER: Add an image of the Scoring Chart/Result UI here]
-
----
-
 ## 🛠️ Technical Stack
 
 - Frontend: Streamlit
@@ -78,5 +68,3 @@ streamlit run app.py
 ## 🤝 Contributing
 
 #### Contributions are welcome! If you have a feature request or a bug report, please open an issue or submit a pull request.
----
-Developed with ❤️ by Yashraj Kore
