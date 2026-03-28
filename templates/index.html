@@ -1,203 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Resumeet | AI Resume Analyzer</title>
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    background: radial-gradient(circle at 20% 20%, #1a1a2e, #0f0f1a 60%);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    overflow: hidden;
-}
-
-/* Floating background glow */
-body::before, body::after {
-    content: "";
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 162, 255, 0.25), transparent 70%);
-    animation: float 8s infinite alternate ease-in-out;
-}
-body::after {
-    right: 0;
-    bottom: 0;
-    animation-delay: 3s;
-}
-@keyframes float {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-40px); }
-}
-
-.container {
-    width: 95%;
-    max-width: 900px;
-    backdrop-filter: blur(18px);
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 0 40px rgba(0, 26, 255, 0.15);
-    animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    text-align: center;
-    font-size: 14px;
-    color: #bbb;
-    margin-bottom: 30px;
-}
-
-.card {
-    background: rgba(255,255,255,0.04);
-    border-radius: 16px;
-    padding: 30px;
-}
-
-label {
-    font-weight: 500;
-    font-size: 14px;
-}
-
-textarea, input[type="file"] {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.4);
-    color: white;
-    transition: 0.3s;
-}
-
-textarea:focus, input[type="file"]:focus {
-    border-color: #000dff;
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 187, 255, 0.5);
-}
-
-/* Upload box */
-.upload-box {
-    border: 2px dashed rgba(255,255,255,0.2);
-    padding: 25px;
-    text-align: center;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.upload-box:hover {
-    border-color: #0008ff;
-    background: rgba(60, 0, 255, 0.05);
-}
-
-/* Button */
-.btn-primary {
-    width: 100%;
-    margin-top: 20px;
-    padding: 16px;
-    border: none;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #0b0251, #4a3dff);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.4s;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(89, 0, 255, 0.4);
-}
-
-.btn-primary.loading {
-    pointer-events: none;
-    opacity: 0.8;
-}
-
-.btn-primary.loading::after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    border: 3px solid white;
-    border-top: 3px solid transparent;
-    border-radius: 50%;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: translateY(-50%) rotate(360deg); }
-}
-
-.footer-note {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 12px;
-    color: #aaa;
-}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Resumeet | AI Resume Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Poppins', sans-serif; 
+        }
+        body { 
+            background: 
+            radial-gradient(circle at 20% 20%, #1a1a2e, #0f0f1a 60%); 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            padding: 20px; 
+        }
+        .container { 
+            width: 100%; 
+            max-width: 900px; 
+            backdrop-filter: blur(18px); 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 20px; 
+            padding: 40px; 
+            box-shadow: 0 0 40px rgba(0, 26, 255, 0.15); 
+        }
+        h2 { 
+            text-align: center; 
+            font-size: 32px; 
+            margin-bottom: 10px; 
+        }
+        .card { 
+            background: rgba(255,255,255,0.04); 
+            border-radius: 16px; 
+            padding: 30px; 
+            margin-bottom: 20px; 
+        }
+        textarea { 
+            width: 100%; 
+            margin: 10px 0 20px; 
+            padding: 14px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.4); 
+            color: white; 
+        }
+        .upload-box { 
+            border: 2px dashed rgba(255,255,255,0.2); 
+            padding: 25px; 
+            text-align: center; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-bottom: 20px; 
+        }
+        .btn-primary { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 50px; 
+            background: linear-gradient(90deg, #0b0251, #4a3dff); 
+            color: white; 
+            font-weight: 600; 
+            cursor: pointer; 
+        }
+        
+        /* NEW: Result Styles */
+        .result-section { 
+            margin-top: 30px; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            padding-top: 20px; 
+        }
+        .score-circle { 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 5px solid #4a3dff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin: 20px auto; 
+        }
+        .tag { 
+            display: inline-block; 
+            background: rgba(74, 61, 255, 0.2); 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 12px;
+            margin: 5px; 
+            border: 1px solid #4a3dff; 
+        }
+        .error { 
+            color: #ff4d4d; 
+            text-align: center; 
+            margin-top: 10px; 
+        }
+        .loading { 
+            opacity: 0.5; 
+            pointer-events: none; 
+        }
+    </style>
 </head>
-
 <body>
 <div class="container">
     <h2>🔍 Resumeet AI</h2>
-    <p class="subtitle">Smart Resume Analysis Powered by Artificial Intelligence</p>
+    <p style="text-align: center; font-size: 14px; color: #bbb; margin-bottom: 30px;">Smart Resume Analysis Powered by Gemini</p>
 
     <div class="card">
-        <form action="/analyze" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
-
+        <form action="/analyze" method="post" enctype="multipart/form-data" id="resumeForm">
             <label>1. Paste Job Description</label>
             <textarea name="jd" rows="5" placeholder="Paste the job description here..." required></textarea>
 
             <label>2. Upload Resume (PDF)</label>
             <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                Click or Drag & Drop your resume here
-                <input type="file" id="fileInput" name="resume" accept=".pdf" hidden required>
+                <span id="fileName">Click to upload your PDF resume</span>
+                <input type="file" id="fileInput" name="resume" accept=".pdf" hidden required onchange="updateFileName()">
             </div>
 
             <button type="submit" class="btn-primary" id="analyzeBtn">Analyze Resume</button>
         </form>
-        <p class="footer-note">Your data is secure. We do not store resumes.</p>
     </div>
+
+    {% if result %}
+    <div class="result-section">
+        <h3>Analysis Results</h3>
+        <div class="score-circle">{{ result.match_percentage }}%</div>
+        
+        <div style="margin-bottom: 20px;">
+            <strong>Profile Summary:</strong>
+            <p style="color: #ccc; font-size: 14px;">{{ result.profile_summary }}</p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <strong>Missing Keywords:</strong><br>
+            {% for word in result.missing_keywords %}
+                <span class="tag">{{ word }}</span>
+            {% endfor %}
+        </div>
+
+        <div>
+            <strong>Improvement Tips:</strong>
+            <ul style="color: #ccc; font-size: 14px; padding-left: 20px;">
+                {% for tip in result.improvement_tips %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">Error: {{ error }}</div>
+    {% endif %}
 </div>
 
 <script>
-function showLoading() {
-    document.getElementById("analyzeBtn").classList.add("loading");
-}
+    function updateFileName() {
+        const input = document.getElementById('fileInput');
+        document.getElementById('fileName').textContent = input.files[0].name;
+    }
+
+    document.getElementById('resumeForm').onsubmit = function() {
+        document.getElementById('analyzeBtn').innerText = "Analyzing... Please wait";
+        document.getElementById('analyzeBtn').classList.add('loading');
+    };
 </script>
 </body>
 </html>

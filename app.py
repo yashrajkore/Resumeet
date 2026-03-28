@@ -1,44 +1,48 @@
+import os
+import json
+from dotenv import load_dotenv
 from flask import Flask, render_template, request
 import PyPDF2 as pdf
-import re
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from google import genai
+from google.genai import types
 
-# Setup
+load_dotenv()
+
 app = Flask(__name__)
-nltk.download('punkt')
-nltk.download('stopwords')
-STOPWORDS = set(stopwords.words('english'))
 
-def get_scores(resume_text, jd_text):
-    # --- Formatting Score ---
-    format_score = 0
-    checks = {
-        "Email": r'[\w\.-]+@[\w\.-]+',
-        "Phone": r'\+?\d[\d\s.-]{8,}\d',
-        "Experience": r'(?i)experience|work history',
-        "Education": r'(?i)education|academic',
-        "Skills": r'(?i)skills|technologies'
-    }
-    format_details = {k: bool(re.search(v, resume_text)) for k, v in checks.items()}
-    format_score = sum(2 for found in format_details.values() if found)
+# Fetch the key from the environment instead of hardcoding it
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-    # --- Keyword Score ---
-    res_tokens = {w for w in word_tokenize(resume_text.lower()) if w.isalnum() and w not in STOPWORDS}
-    jd_tokens = {w for w in word_tokenize(jd_text.lower()) if w.isalnum() and w not in STOPWORDS}
-    matched = res_tokens.intersection(jd_tokens)
+# Initialize the Client
+client = genai.Client(api_key=GEMINI_API_KEY)
+
+def get_gemini_response(resume_text, jd_text):
+    prompt = f"""
+    Act as an expert Technical Human Resource Manager. 
+    Evaluate the following resume against the job description.
     
-    keyword_score = round((len(matched) / len(jd_tokens)) * 10) if jd_tokens else 0
+    Resume content: {resume_text}
+    Job Description content: {jd_text}
     
-    return {
-        "total_score": format_score + keyword_score,
-        "format_score": format_score,
-        "format_details": format_details,
-        "keyword_score": keyword_score,
-        "matched_words": list(matched),
-        "matched_count": len(matched)
-    }
+    Return a valid JSON object ONLY with this structure:
+    {{
+      "match_percentage": <number 0-100>,
+      "missing_keywords": ["keyword1", "keyword2"],
+      "profile_summary": "2-3 sentence summary",
+      "improvement_tips": ["tip1", "tip2", "tip3"]
+    }}
+    """
+
+    # Using the best available model from your list
+    response = client.models.generate_content(
+        model='gemini-2.5-flash', 
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            response_mime_type='application/json',
+            temperature=0.1
+        )
+    )
+    return json.loads(response.text)
 
 @app.route('/')
 def index():
@@ -46,17 +50,31 @@ def index():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    jd = request.form['jd']
-    file = request.files['resume']
-    
-    # Read PDF
-    reader = pdf.PdfReader(file)
-    resume_text = ""
-    for page in reader.pages:
-        resume_text += page.extract_text()
-    
-    result = get_scores(resume_text, jd)
-    return render_template('index.html', result=result)
+    try:
+        jd = request.form.get('jd')
+        file = request.files.get('resume')
+        
+        if not file or file.filename == '':
+            return render_template('index.html', error="No resume file uploaded.")
+
+        # Read PDF Text
+        reader = pdf.PdfReader(file)
+        resume_text = ""
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                resume_text += text
+        
+        if not resume_text.strip():
+            return render_template('index.html', error="Could not extract text from PDF. It might be a scanned image.")
+
+        # Get AI Analysis
+        analysis_result = get_gemini_response(resume_text, jd)
+        
+        return render_template('index.html', result=analysis_result)
+
+    except Exception as e:
+        return render_template('index.html', error=f"System Error: {str(e)}")
 
 if __name__ == '__main__':
     app.run(debug=True)
