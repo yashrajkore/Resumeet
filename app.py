@@ -10,10 +10,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Fetch the key from the environment instead of hardcoding it
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Initialize the Client
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 def get_gemini_response(resume_text, jd_text):
@@ -33,7 +31,6 @@ def get_gemini_response(resume_text, jd_text):
     }}
     """
 
-    # Using the best available model from your list
     response = client.models.generate_content(
         model='gemini-2.5-flash', 
         contents=prompt,
@@ -57,7 +54,6 @@ def analyze():
         if not file or file.filename == '':
             return render_template('index.html', error="No resume file uploaded.")
 
-        # Read PDF Text
         reader = pdf.PdfReader(file)
         resume_text = ""
         for page in reader.pages:
@@ -68,7 +64,6 @@ def analyze():
         if not resume_text.strip():
             return render_template('index.html', error="Could not extract text from PDF. It might be a scanned image.")
 
-        # Get AI Analysis
         analysis_result = get_gemini_response(resume_text, jd)
         
         return render_template('index.html', result=analysis_result)
