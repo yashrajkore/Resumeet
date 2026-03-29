@@ -21,7 +21,7 @@ High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex
 ## 📸 Interface Preview
 
 - The Command Center
-    ![User-Interface](images/UIResumeet.jpg)
+    ![User-Interface](images/MainUI.jpg)
 
 - Usage
     ![Form-Filing](images/Form-filling_Resumeet.jpg)
