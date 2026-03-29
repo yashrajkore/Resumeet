@@ -1,4 +1,4 @@
-#  📄 Resumeet AI: Advanced ATS Intelligence
+#  📄 Resumeet AI : Resume Analyzer 
 
 Precision Resume Analysis Powered by Gemini 2.5 Flash
 
