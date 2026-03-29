@@ -64,8 +64,6 @@ python app.py
 
 ## 🗺️ Future Vision
 
-- Multi-Resume Benchmarking: Compare multiple candidates against one JD simultaneously.
-
 - AI Interview Question Generator: Automatically generate custom interview questions based on the candidate's skill gaps.
 
 - Exportable Reports: Generate professional PDF feedback reports for candidates.
