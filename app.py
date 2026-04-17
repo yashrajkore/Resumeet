@@ -22,7 +22,8 @@ def get_gemini_response(resume_text, jd_text):
     Resume content: {resume_text}
     Job Description content: {jd_text}
     
-    Return a valid JSON object ONLY with this structure:
+    You must return a valid JSON object ONLY. Do not include any introductory text.
+    Structure:
     {{
       "match_percentage": <number 0-100>,
       "missing_keywords": ["keyword1", "keyword2"],
@@ -32,7 +33,7 @@ def get_gemini_response(resume_text, jd_text):
     """
 
     response = client.models.generate_content(
-        model='gemini-2.5-flash', 
+        model='gemini-flash-latest', 
         contents=prompt,
         config=types.GenerateContentConfig(
             response_mime_type='application/json',
