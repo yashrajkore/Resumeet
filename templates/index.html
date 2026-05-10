@@ -3,174 +3,389 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Resumeet | AI Resume Analyzer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Resumeet AI | Premium Resume Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Poppins', sans-serif; 
-        }
-        body { 
-            background: radial-gradient(circle at 20% 20%, #1a1a2e, #0f0f1a 60%); 
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 20px;
-        }
-        .container { 
-            width: 100%; 
-            max-width: 900px; 
-            backdrop-filter: blur(18px); 
-            background: rgba(255,255,255,0.05); 
-            border-radius: 20px; 
-            padding: 40px; 
-            box-shadow: 0 0 40px rgba(0, 26, 255, 0.15); 
-        }
-        h2 { 
-            text-align: center; 
-            font-size: 32px; 
-            margin-bottom: 10px; 
-        }
-        .card { 
-            background: rgba(255,255,255,0.04); 
-            border-radius: 16px; 
-            padding: 30px; 
-            margin-bottom: 20px; 
-        }
-        textarea { 
-            width: 100%; 
-            margin: 10px 0 20px; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            background: rgba(0,0,0,0.4); 
-            color: white; 
-        }
-        .upload-box { 
-            border: 2px dashed rgba(255,255,255,0.2); 
-            padding: 25px; 
-            text-align: center; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            margin-bottom: 20px; 
-        }
-        .btn-primary { 
-            width: 100%; 
-            padding: 16px; 
-            border: none; 
-            border-radius: 50px; 
-            background: linear-gradient(90deg, #0b0251, #4a3dff, #0b0251); 
-            color: white; 
-            font-weight: 600; 
-            cursor: pointer; 
-        }
-        
-        /* NEW: Result Styles */
-        .result-section { 
-            margin-top: 30px; 
-            border-top: 1px solid rgba(255,255,255,0.1); 
-            padding-top: 20px; 
-        }
-        .score-circle { 
-            width: 100px; 
-            height: 100px; 
-            border-radius: 50%; 
-            border: 5px solid #4a3dff; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 24px; 
-            font-weight: bold; 
-            margin: 20px auto; 
-        }
-        .tag { 
-            display: inline-block; 
-            background: rgba(74, 61, 255, 0.2); 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-size: 12px;
-            margin: 5px; 
-            border: 1px solid #4a3dff; 
-        }
-        .error { 
-            color: #ff4d4d; 
-            text-align: center; 
-            margin-top: 10px; 
-        }
-        .loading { 
-            opacity: 0.5; 
-            pointer-events: none; 
-        }
+        /* --- VARIABLES & RESET --- */
+:root {
+    --bg-dark: #0B1020;
+    --bg-card: #111827;
+    --bg-light: #1F2937;
+    --primary: #6C63FF;
+    --primary-hover: #5A52D5;
+    --secondary: #8B5CF6;
+    --accent: #00D4FF;
+    --text-main: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --glass-bg: rgba(17, 24, 39, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --gradient-text: linear-gradient(135deg, var(--accent), var(--secondary));
+    --gradient-btn: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* --- BACKGROUND ANIMATIONS --- */
+.glow-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.4;
+    animation: float 10s infinite alternate ease-in-out;
+}
+.blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary); animation-delay: 0s; }
+.blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--secondary); animation-delay: -3s; }
+.blob-3 { top: 40%; left: 50%; transform: translate(-50%, -50%); width: 400px; height: 400px; background: var(--accent); opacity: 0.2; animation-delay: -6s; }
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 50px) scale(1.1); }
+}
+
+/* --- LAYOUT & GLASSMORPHISM --- */
+.container {
+    width: 100%;
+    max-width: 900px;
+    z-index: 10;
+}
+
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* --- HEADER --- */
+.header-branding { text-align: center; margin-bottom: 2rem; }
+.app-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.app-title i { color: var(--primary); }
+.subtitle { color: var(--text-muted); font-size: 1rem; font-weight: 400; }
+.text-gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600; }
+
+/* --- FORM COMPONENTS --- */
+.form-card { border-radius: 24px; padding: 40px; margin-bottom: 30px; }
+.input-group { margin-bottom: 25px; }
+.input-group label { display: block; margin-bottom: 10px; font-weight: 500; font-size: 0.95rem; color: #E5E7EB; }
+.input-group label i { color: var(--accent); margin-right: 8px; }
+
+textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 16px;
+    color: white;
+    font-size: 0.95rem;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15); background: rgba(0, 0, 0, 0.3); }
+
+/* --- UPLOAD AREA --- */
+.upload-area {
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.upload-area:hover, .upload-area.dragover { border-color: var(--accent); background: rgba(0, 212, 255, 0.05); }
+.upload-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.upload-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; transition: transform 0.3s; }
+.upload-area:hover .upload-icon { transform: translateY(-5px); }
+#fileName { font-weight: 600; font-size: 1.1rem; color: var(--text-main); }
+.upload-hint { font-size: 0.85rem; color: var(--text-muted); }
+.upload-area.file-selected { border-style: solid; border-color: #10B981; background: rgba(16, 185, 129, 0.05); }
+.upload-area.file-selected .upload-icon { color: #10B981; }
+
+/* --- BUTTON & LOADER --- */
+.btn-primary {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 50px;
+    background: var(--gradient-btn);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(108, 99, 255, 0.6); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary.loading-state { pointer-events: none; opacity: 0.9; }
+
+/* CSS Spinner */
+.loader {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- RESULT DASHBOARD --- */
+.result-dashboard { margin-top: 2rem; }
+.dashboard-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-bottom: 25px; }
+.dashboard-header h3 { font-size: 1.5rem; font-weight: 600; }
+.dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+
+.dashboard-card { border-radius: 20px; padding: 25px; }
+.dashboard-card h4 { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; margin-bottom: 15px; color: var(--accent); font-weight: 600; }
+
+/* Score Visualization */
+.score-container { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.score-circle { width: 140px; height: 140px; margin: 10px auto; position: relative; }
+.circular-chart { display: block; margin: 0 auto; max-width: 100%; max-height: 100%; }
+.circle-bg { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 2.5; }
+.circle { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linecap: round; animation: fillProgress 1.5s ease-out forwards; }
+.percentage { fill: #fff; font-family: 'Poppins', sans-serif; font-size: 8px; font-weight: 700; text-anchor: middle; alignment-baseline: middle; }
+.score-status { margin-top: 10px; font-size: 0.9rem; font-weight: 500; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+
+@keyframes fillProgress { 0% { stroke-dasharray: 0, 100; } }
+
+/* Insights */
+.summary-container { grid-column: 2 / 3; }
+.summary-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+.keywords-container { grid-column: 1 / -1; }
+.tags-wrapper { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag { padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+.keyword-tag { background: rgba(255, 95, 86, 0.1); color: #FF5F56; border-color: rgba(255, 95, 86, 0.3); }
+.success-tag { background: rgba(16, 185, 129, 0.1); color: #10B981; border-color: rgba(16, 185, 129, 0.3); }
+
+.tips-container { grid-column: 1 / -1; }
+.tips-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.tips-list li { display: flex; align-items: flex-start; gap: 12px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+.tips-list li:hover { border-color: var(--primary); transform: translateX(5px); }
+.tip-icon-box { background: rgba(108, 99, 255, 0.15); color: var(--primary); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; }
+.tips-list li span { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+
+/* --- ERROR TOAST & UTILS --- */
+.error-toast { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); color: #EF4444; padding: 16px; border-radius: 12px; text-align: center; margin-top: 20px; font-weight: 500; }
+.fade-in { animation: fadeIn 0.6s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .summary-container { grid-column: 1 / -1; }
+    .form-card { padding: 25px; }
+    .app-title { font-size: 2rem; }
+}
     </style>
-</head>
+
+    </head>
 <body>
-<div class="container">
-    <h2>🔍 Resumeet AI</h2>
-    <p style="text-align: center; font-size: 14px; color: #bbb; margin-bottom: 30px;">Smart Resume Analysis Powered by Gemini</p>
 
-    <div class="card">
-        <form action="/analyze" method="post" enctype="multipart/form-data" id="resumeForm">
-            <label>1. Paste Job Description</label>
-            <textarea name="jd" rows="5" placeholder="Paste the job description here..." required></textarea>
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
 
-            <label>2. Upload Resume (PDF)</label>
-            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                <span id="fileName">Click to upload your PDF resume</span>
-                <input type="file" id="fileInput" name="resume" accept=".pdf" hidden required onchange="updateFileName()">
+    <div class="container reveal">
+        <div class="header-branding">
+            <h2 class="app-title"><i class="fa-solid fa-magnifying-glass-chart"></i> Resumeet AI</h2>
+            <p class="subtitle">Smart Resume Analysis Powered by <span class="text-gradient">Gemini</span></p>
+        </div>
+
+        <div class="card form-card glass">
+            <form action="/analyze" method="post" enctype="multipart/form-data" id="resumeForm">
+                
+                <div class="input-group">
+                    <label for="jd"><i class="fa-solid fa-briefcase"></i> 1. Paste Job Description</label>
+                    <textarea name="jd" id="jd" rows="5" placeholder="Paste the job description here..." required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fa-solid fa-file-pdf"></i> 2. Upload Resume (PDF)</label>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-content">
+                            <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                            <span id="fileName">Click to upload your PDF resume</span>
+                            <p class="upload-hint">or drag and drop here</p>
+                        </div>
+                        <input type="file" id="fileInput" name="resume" accept=".pdf" hidden required onchange="updateFileName()">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="analyzeBtn">
+                    <span id="btnText">Analyze Resume <i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                    <div class="loader" id="loader" style="display: none;"></div>
+                </button>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="result-dashboard fade-in" id="result">
+            <div class="dashboard-header">
+                <h3><i class="fa-solid fa-chart-line"></i> Deep Analysis Results</h3>
             </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card glass score-container">
+                    <h4>ATS Match Score</h4>
+                    <div class="score-circle">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" stroke-dasharray="{{ result.match_percentage }}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="percentage">{{ result.match_percentage }}%</text>
+                        </svg>
+                    </div>
+                    <span class="score-status">
+                        {% if result.match_percentage|int >= 80 %} Exceptional Match
+                        {% elif result.match_percentage|int >= 60 %} Good Potential
+                        {% else %} Needs Improvement {% endif %}
+                    </span>
+                </div>
 
-            <button type="submit" class="btn-primary" id="analyzeBtn">Analyze Resume</button>
-        </form>
+                <div class="dashboard-card glass summary-container">
+                    <h4><i class="fa-solid fa-user-check"></i> Profile Summary</h4>
+                    <p class="summary-text">{{ result.profile_summary }}</p>
+                </div>
+
+                <div class="dashboard-card glass keywords-container">
+                    <h4><i class="fa-solid fa-tags"></i> Missing Keywords</h4>
+                    <div class="tags-wrapper">
+                        {% for word in result.missing_keywords %}
+                            <span class="tag keyword-tag">{{ word }}</span>
+                        {% else %}
+                            <span class="tag success-tag"><i class="fa-solid fa-check"></i> All keywords present!</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="dashboard-card glass tips-container">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Improvement Tips</h4>
+                    <ul class="tips-list">
+                        {% for tip in result.improvement_tips %}
+                            <li>
+                                <div class="tip-icon-box"><i class="fa-solid fa-arrow-right"></i></div>
+                                <span>{{ tip }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error-toast fade-in">
+            <i class="fa-solid fa-triangle-exclamation"></i> Error: {{ error }}
+        </div>
+        {% endif %}
     </div>
 
-    {% if result %}
-    <div class="result-section">
-        <h3>Analysis Results</h3>
-        <div class="score-circle">{{ result.match_percentage }}%</div>
+    <script>
+        // Preserve core backend requirement: File name updating
+function updateFileName() {
+    const input = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileNameSpan = document.getElementById('fileName');
+    
+    if (input.files && input.files.length > 0) {
+        fileNameSpan.textContent = input.files[0].name;
         
-        <div style="margin-bottom: 20px;">
-            <strong>Profile Summary:</strong>
-            <p style="color: #ccc; font-size: 14px;">{{ result.profile_summary }}</p>
-        </div>
+        // Add premium visual feedback for selected file
+        uploadArea.classList.add('file-selected');
+        uploadArea.querySelector('.upload-hint').textContent = "Ready for analysis";
+        uploadArea.querySelector('.upload-icon').className = "fa-solid fa-file-circle-check upload-icon";
+    }
+}
 
-        <div style="margin-bottom: 20px;">
-            <strong>Missing Keywords:</strong><br>
-            {% for word in result.missing_keywords %}
-                <span class="tag">{{ word }}</span>
-            {% endfor %}
-        </div>
+// Preserve core backend requirement: Form submission handling
+document.getElementById('resumeForm').onsubmit = function() {
+    const btn = document.getElementById('analyzeBtn');
+    const btnText = document.getElementById('btnText');
+    const loader = document.getElementById('loader');
+    
+    // UI Loading State
+    btn.classList.add('loading-state');
+    btnText.innerText = "Analyzing with AI...";
+    loader.style.display = "block";
+    
+    // The form will naturally submit to your Python backend after this executes.
+};
 
-        <div>
-            <strong>Improvement Tips:</strong>
-            <ul style="color: #ccc; font-size: 14px; padding-left: 20px;">
-                {% for tip in result.improvement_tips %}
-                    <li>{{ tip }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
+// --- Added UX/UI Enhancements for the Drag & Drop area ---
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
 
-    {% if error %}
-    <div class="error">Error: {{ error }}</div>
-    {% endif %}
-</div>
+    // Prevent default browser drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
 
-<script>
-    function updateFileName() {
-        const input = document.getElementById('fileInput');
-        document.getElementById('fileName').textContent = input.files[0].name;
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
 
-    document.getElementById('resumeForm').onsubmit = function() {
-        document.getElementById('analyzeBtn').innerText = "Analyzing... Please wait";
-        document.getElementById('analyzeBtn').classList.add('loading');
-    };
-</script>
-</body>
+    // Add glowing border on drag over
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, () => {
+            uploadArea.classList.add('dragover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, () => {
+            uploadArea.classList.remove('dragover');
+        }, false);
+    });
+
+    // Handle dropped files
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        if (files.length > 0 && files[0].type === "application/pdf") {
+            // Assign the dropped file to the hidden input so the backend receives it
+            fileInput.files = files;
+            updateFileName();
+        } else {
+            alert("Please upload a valid PDF file.");
+        }
+    }
+});
+    </script>
+    </body>
 </html>
