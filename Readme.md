@@ -23,11 +23,8 @@ High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex
 - The Command Center
     ![User-Interface](images/Resumeet_Home.jpg)
 
-- Usage
-    ![Form-Filing](images/Form-filling_Resumeet.jpg)
-    
 - Real-Time Intelligence
-    ![Output](images/Resumeet_Output.jpg)
+    ![Output](images/Resumeet_Result.jpg)
 
 ---
 
