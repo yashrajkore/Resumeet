@@ -27,7 +27,7 @@ High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex
     ![Output](images/Resumeet_Result.jpg)
 
 - Watch Demonstration Video
-[![YouTube](https://skillicons.dev/icons?i=v)](https://youtu.be/eneVFs9asb8)
+    - [![YouTube](https://skillicons.dev/icons?i=v)](https://youtu.be/eneVFs9asb8)
 
 ---
 
