@@ -25,9 +25,7 @@ High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex
 
 - Real-Time Intelligence
     ![Output](images/Resumeet_Result.jpg)
-
-- Watch Demonstration Video : https://youtu.be/eneVFs9asb8
-
+  
 ---
 
 ## 🛠️ The Tech Stack
@@ -57,8 +55,6 @@ pip install -r requirements.txt
 ```
 python app.py
 ```
-- Visit http://127.0.0.1:5000 in your browser.
-
 ---
 
 ## 🗺️ Future Vision
