@@ -33,7 +33,7 @@ def get_gemini_response(resume_text, jd_text):
     """
 
     response = client.models.generate_content(
-        model='gemini-2.5-flash', 
+        model='gemini-flash-latest', 
         contents=prompt,
         config=types.GenerateContentConfig(
             response_mime_type='application/json',
