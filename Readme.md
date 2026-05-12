@@ -26,6 +26,9 @@ High-Fidelity PDF Parsing: Utilizes optimized extraction logic to handle complex
 - Real-Time Intelligence
     ![Output](images/Resumeet_Result.jpg)
 
+- Watch Demonstration Video
+[![YouTube](https://shields.io)](https://youtu.be/eneVFs9asb8)
+
 ---
 
 ## 🛠️ The Tech Stack
